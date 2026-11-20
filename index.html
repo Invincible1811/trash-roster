@@ -59,18 +59,35 @@ td.out{color:var(--muted);white-space:nowrap}
 .remind{margin:0 0 30px;display:flex;flex-direction:column;gap:10px}
 .remind h2{font-family:var(--display);font-weight:400;font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em;margin:0}
 .remind p{margin:0;color:var(--muted)}
-.remind .btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.remind a.cal{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border:2px solid var(--pc);color:var(--pc);background:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:color .25s ease,transform .2s ease}
-.remind a.cal::before{content:"";position:absolute;inset:0;background:var(--pc);transform:translateY(101%);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
-.remind a.cal > *{position:relative}
-.remind a.cal:hover,.remind a.cal:focus-visible{color:#fff;transform:translateY(-2px)}
-.remind a.cal:hover::before,.remind a.cal:focus-visible::before{transform:none}
-.remind a.cal svg{width:16px;height:16px}
+.remind .pick{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.remind select{font:inherit;font-weight:700;color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:11px 40px 11px 14px;min-width:220px;flex:0 1 260px;appearance:none;-webkit-appearance:none;border-radius:0;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 52%,calc(100% - 14px) 52%;background-size:6px 6px;background-repeat:no-repeat}
+.remind select:focus-visible{outline:2px solid var(--head-deep);outline-offset:2px}
+.remind select.nudge{animation:nudge .5s ease}
+@keyframes nudge{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.remind button.add{font:inherit;border:none;cursor:pointer;align-self:flex-start}
+dialog#pickdlg{border:2px solid var(--ink);background:var(--paper);color:var(--ink);padding:0;width:min(340px,calc(100vw - 32px));border-radius:0}
+dialog#pickdlg::backdrop{background:rgba(16,32,26,.45)}
+dialog#pickdlg[open]{animation:pop .25s cubic-bezier(.2,.75,.2,1)}
+@keyframes pop{from{transform:translateY(8px) scale(.98);opacity:.3}to{transform:none;opacity:1}}
+.dlg{display:flex;flex-direction:column;gap:10px;padding:22px}
+.dlg h3{font-family:var(--display);font-weight:400;font-size:1.6rem;text-transform:uppercase;margin:0}
+.dlg p{margin:0;color:var(--muted);font-size:.9rem}
+.dlg .names{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.dlg .names button{font:inherit;font-weight:700;padding:12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;transition:background .2s ease,color .2s ease}
+.dlg .names button:hover,.dlg .names button:focus-visible{background:var(--head);outline:none}
+.dlg .cancel{font:inherit;background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;align-self:center;padding:6px}
+.remind .add,.remind button.add{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 18px;background:var(--ink);color:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s ease,color .25s ease;flex:0 1 auto}
+.remind .add::before{content:"";position:absolute;inset:0;background:var(--head-deep);transform:translateX(-101%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.remind .add > *{position:relative}
+.remind .add:hover,.remind .add:focus-visible{transform:translateY(-2px);color:var(--ink)}
+.remind .add:hover::before,.remind .add:focus-visible::before{transform:none}
+.remind .add[aria-disabled="true"]{opacity:.55}
+.remind .add svg{width:16px;height:16px}
 .remind .how{font-size:.85rem}
-.remind .cell{display:flex;flex-direction:column;gap:6px;min-width:0}
-.remind a.g{align-self:center;font-size:.8rem;font-weight:700;color:var(--pc);text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
-.remind a.g:hover{text-decoration-thickness:2px}
-@media (max-width:520px){.remind .btns{grid-template-columns:1fr 1fr}}
+.remind a.alt{font-size:.82rem;color:var(--ink);text-underline-offset:3px;align-self:flex-start}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:520px){.remind select,.remind .add{flex:1 1 100%;min-width:0}}
 tr.m td{border-bottom:none;padding:34px 0 10px;font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em}
 tr.m td .ml{display:flex;align-items:center;gap:14px}
 tr.m td .ml b{font-weight:400;background:var(--ink);color:var(--paper);padding:7px 16px 5px;line-height:1.1;white-space:nowrap}
@@ -206,10 +223,41 @@ footer a{color:var(--ink)}
 
   <section class="remind" aria-label="Phone reminders">
     <h2>Get reminders on your phone</h2>
-    <p>Tap your name to add all your weeks to your phone's calendar. Your phone will remind you at 6 PM on each of your Thursdays.</p>
-    <div class="btns"><div class="cell" style="--pc:var(--favour)"><a class="cal" href="cal/favour.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Favour</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Ffavour.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--wahab)"><a class="cal" href="cal/wahab.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Wahab</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Fwahab.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--tanaka)"><a class="cal" href="cal/tanaka.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Tanaka</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Ftanaka.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--bernard)"><a class="cal" href="cal/bernard.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Bernard</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Fbernard.ics" target="_blank" rel="noopener">Google Calendar</a></div></div>
-    <p class="how"><b>iPhone or Samsung:</b> tap your name, then <b>Add All</b> (on Samsung, open the downloaded file). <b>Google Calendar (most Android phones):</b> tap <b>Google Calendar</b> under your name and add it. Then, once, turn on an alert: Google Calendar → Settings → <i>Trash roster (your name)</i> → add a notification.</p>
+    <p>One tap adds your weeks to your phone's calendar, with an alert at 6 PM on each of your Thursdays.</p>
+    <button type="button" class="add" id="add"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Add reminders to my phone</span></button>
+    <p class="how" id="how">Open this page on your phone. It works on iPhone and Android.</p>
   </section>
+  <dialog id="pickdlg" aria-labelledby="pickttl">
+    <form method="dialog" class="dlg">
+      <h3 id="pickttl">Who are you?</h3>
+      <p id="pickhint"></p>
+      <div class="names"><button type="button" data-n="favour">Favour</button><button type="button" data-n="wahab">Wahab</button><button type="button" data-n="tanaka">Tanaka</button><button type="button" data-n="bernard">Bernard</button></div>
+      <button value="cancel" class="cancel">Cancel</button>
+    </form>
+  </dialog>
+  <script>
+  (()=>{const ua=navigator.userAgent;
+    const android=/Android/i.test(ua), samsung=/SamsungBrowser/i.test(ua);
+    const ios=!android&&(/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1));
+    const mode=android?(samsung?"samsung":"google"):ios?"ios":"desktop";
+    document.documentElement.dataset.os=mode;
+    const G="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2F";
+    const how={ios:"<b>iPhone detected.</b> Tap the button, pick your name, then tap <b>Add All</b>.",
+      samsung:"<b>Samsung detected.</b> Tap the button, pick your name, then open the downloaded file.",
+      google:"<b>Android detected.</b> Tap the button, pick your name and add it to Google Calendar. Then, once: Google Calendar \u2192 Settings \u2192 <i>Trash roster (your name)</i> \u2192 add a notification.",
+      desktop:"Open this page on your phone. It works on iPhone and Android."};
+    const hint={ios:"Your weeks will be added to your iPhone calendar.",samsung:"Your weeks will be added to your Samsung calendar.",
+      google:"Your weeks will be added to Google Calendar.",desktop:"Your weeks will download as a calendar file."};
+    document.getElementById("how").innerHTML=how[mode];
+    document.getElementById("pickhint").textContent=hint[mode];
+    const dlg=document.getElementById("pickdlg");
+    document.getElementById("add").addEventListener("click",()=>{
+      if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");});
+    dlg.querySelectorAll("button[data-n]").forEach(b=>b.addEventListener("click",e=>{
+      e.preventDefault();const n=b.dataset.n;dlg.close&&dlg.close();
+      location.href=mode==="google"?G+n+".ics":"cal/"+n+".ics";}));
+    })();
+  </script>
 
   <div class="scroll">
     <table>

@@ -56,6 +56,18 @@ td.out{color:var(--muted);white-space:nowrap}
 .cov{display:block;font-size:.78rem;color:var(--wahab);font-style:italic}
 .travel{margin:-14px 0 28px;padding:12px 16px;border-left:4px solid var(--head-deep);background:rgba(134,219,182,.25);font-size:.95rem}
 .travel b{font-weight:700}
+.remind{margin:0 0 30px;display:flex;flex-direction:column;gap:10px}
+.remind h2{font-family:var(--display);font-weight:400;font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em;margin:0}
+.remind p{margin:0;color:var(--muted)}
+.remind .btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.remind a.cal{--pc:var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border:2px solid var(--pc);color:var(--pc);background:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:color .25s ease,transform .2s ease}
+.remind a.cal::before{content:"";position:absolute;inset:0;background:var(--pc);transform:translateY(101%);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.remind a.cal > *{position:relative}
+.remind a.cal:hover,.remind a.cal:focus-visible{color:#fff;transform:translateY(-2px)}
+.remind a.cal:hover::before,.remind a.cal:focus-visible::before{transform:none}
+.remind a.cal svg{width:16px;height:16px}
+.remind .how{font-size:.85rem}
+@media (max-width:520px){.remind .btns{grid-template-columns:1fr 1fr}}
 tr.m td{border-bottom:none;padding:34px 0 10px;font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em}
 tr.m td .ml{display:flex;align-items:center;gap:14px}
 tr.m td .ml b{font-weight:400;background:var(--ink);color:var(--paper);padding:7px 16px 5px;line-height:1.1;white-space:nowrap}
@@ -152,7 +164,7 @@ footer a{color:var(--ink)}
   h1{font-size:30pt;padding-bottom:5px}
   h1::after{height:3px}
   .sub{margin-top:5px;font-size:8.6pt}
-  .side{display:none}
+  .side,.remind{display:none}
   .scroll{overflow:visible;columns:2;column-gap:26px}
   thead{display:none}
   td{padding:2.2px 5px}
@@ -188,6 +200,13 @@ footer a{color:var(--ink)}
   </header>
 
   <p class="travel"><b>Travelling?</b> Your turn is skipped and the next person in line carries on.</p>
+
+  <section class="remind" aria-label="Phone reminders">
+    <h2>Get reminders on your phone</h2>
+    <p>Tap your name to add all your weeks to your phone's calendar. Your phone will remind you at 6 PM on each of your Thursdays.</p>
+    <div class="btns"><a class="cal" href="cal/favour.ics" style="--pc:var(--favour)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Favour</span></a><a class="cal" href="cal/wahab.ics" style="--pc:var(--wahab)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Wahab</span></a><a class="cal" href="cal/tanaka.ics" style="--pc:var(--tanaka)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Tanaka</span></a><a class="cal" href="cal/bernard.ics" style="--pc:var(--bernard)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Bernard</span></a></div>
+    <p class="how"><b>iPhone:</b> tap your name, then tap <b>Add All</b>. <b>Android:</b> tap your name, open the downloaded file, and choose your Calendar app.</p>
+  </section>
 
   <div class="scroll">
     <table>

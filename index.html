@@ -60,13 +60,16 @@ td.out{color:var(--muted);white-space:nowrap}
 .remind h2{font-family:var(--display);font-weight:400;font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em;margin:0}
 .remind p{margin:0;color:var(--muted)}
 .remind .btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.remind a.cal{--pc:var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border:2px solid var(--pc);color:var(--pc);background:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:color .25s ease,transform .2s ease}
+.remind a.cal{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border:2px solid var(--pc);color:var(--pc);background:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:color .25s ease,transform .2s ease}
 .remind a.cal::before{content:"";position:absolute;inset:0;background:var(--pc);transform:translateY(101%);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
 .remind a.cal > *{position:relative}
 .remind a.cal:hover,.remind a.cal:focus-visible{color:#fff;transform:translateY(-2px)}
 .remind a.cal:hover::before,.remind a.cal:focus-visible::before{transform:none}
 .remind a.cal svg{width:16px;height:16px}
 .remind .how{font-size:.85rem}
+.remind .cell{display:flex;flex-direction:column;gap:6px;min-width:0}
+.remind a.g{align-self:center;font-size:.8rem;font-weight:700;color:var(--pc);text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+.remind a.g:hover{text-decoration-thickness:2px}
 @media (max-width:520px){.remind .btns{grid-template-columns:1fr 1fr}}
 tr.m td{border-bottom:none;padding:34px 0 10px;font-family:var(--display);font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em}
 tr.m td .ml{display:flex;align-items:center;gap:14px}
@@ -204,8 +207,8 @@ footer a{color:var(--ink)}
   <section class="remind" aria-label="Phone reminders">
     <h2>Get reminders on your phone</h2>
     <p>Tap your name to add all your weeks to your phone's calendar. Your phone will remind you at 6 PM on each of your Thursdays.</p>
-    <div class="btns"><a class="cal" href="cal/favour.ics" style="--pc:var(--favour)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Favour</span></a><a class="cal" href="cal/wahab.ics" style="--pc:var(--wahab)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Wahab</span></a><a class="cal" href="cal/tanaka.ics" style="--pc:var(--tanaka)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Tanaka</span></a><a class="cal" href="cal/bernard.ics" style="--pc:var(--bernard)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Bernard</span></a></div>
-    <p class="how"><b>iPhone:</b> tap your name, then tap <b>Add All</b>. <b>Android:</b> tap your name, open the downloaded file, and choose your Calendar app.</p>
+    <div class="btns"><div class="cell" style="--pc:var(--favour)"><a class="cal" href="cal/favour.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Favour</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Ffavour.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--wahab)"><a class="cal" href="cal/wahab.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Wahab</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Fwahab.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--tanaka)"><a class="cal" href="cal/tanaka.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Tanaka</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Ftanaka.ics" target="_blank" rel="noopener">Google Calendar</a></div><div class="cell" style="--pc:var(--bernard)"><a class="cal" href="cal/bernard.ics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8L4 11Zm2.5 2.5a1.5 1.5 0 0 0 3 0"/></svg><span>Bernard</span></a><a class="g" href="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2Fbernard.ics" target="_blank" rel="noopener">Google Calendar</a></div></div>
+    <p class="how"><b>iPhone or Samsung:</b> tap your name, then <b>Add All</b> (on Samsung, open the downloaded file). <b>Google Calendar (most Android phones):</b> tap <b>Google Calendar</b> under your name and add it. Then, once, turn on an alert: Google Calendar → Settings → <i>Trash roster (your name)</i> → add a notification.</p>
   </section>
 
   <div class="scroll">

@@ -76,6 +76,12 @@ dialog#pickdlg[open]{animation:pop .25s cubic-bezier(.2,.75,.2,1)}
 .dlg .names{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
 .dlg .names button{font:inherit;font-weight:700;padding:12px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;transition:background .2s ease,color .2s ease}
 .dlg .names button:hover,.dlg .names button:focus-visible{background:var(--head);outline:none}
+.dlg select{font:inherit;font-weight:700;color:var(--ink);background-color:var(--paper);border:2px solid var(--ink);padding:12px 40px 12px 14px;width:100%;appearance:none;-webkit-appearance:none;border-radius:0;margin-top:4px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 52%,calc(100% - 14px) 52%;background-size:6px 6px;background-repeat:no-repeat}
+.dlg select:focus-visible{outline:2px solid var(--head-deep);outline-offset:2px}
+.dlg select.nudge{animation:nudge .5s ease}
+.dlg .go{font:inherit;font-weight:700;padding:13px;border:none;background:var(--ink);color:var(--paper);cursor:pointer;transition:background .2s ease,color .2s ease}
+.dlg .go:hover,.dlg .go:focus-visible{background:var(--head-deep);color:var(--ink);outline:none}
 .dlg .cancel{font:inherit;background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;align-self:center;padding:6px}
 .remind .add,.remind button.add{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 18px;background:var(--ink);color:var(--paper);font-weight:700;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s ease,color .25s ease;flex:0 1 auto}
 .remind .add::before{content:"";position:absolute;inset:0;background:var(--head-deep);transform:translateX(-101%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
@@ -231,8 +237,10 @@ footer a{color:var(--ink)}
     <form method="dialog" class="dlg">
       <h3 id="pickttl">Who are you?</h3>
       <p id="pickhint"></p>
-      <div class="names"><button type="button" data-n="favour">Favour</button><button type="button" data-n="wahab">Wahab</button><button type="button" data-n="tanaka">Tanaka</button><button type="button" data-n="bernard">Bernard</button></div>
-      <button value="cancel" class="cancel">Cancel</button>
+      <label class="sr" for="who">Your name</label>
+      <select id="who" required><option value="">Choose your name</option><option value="favour">Favour</option><option value="wahab">Wahab</option><option value="tanaka">Tanaka</option><option value="bernard">Bernard</option></select>
+      <button type="button" class="go" id="go">Add to my calendar</button>
+      <button value="cancel" class="cancel" formnovalidate>Cancel</button>
     </form>
   </dialog>
   <script>
@@ -242,9 +250,9 @@ footer a{color:var(--ink)}
     const mode=android?(samsung?"samsung":"google"):ios?"ios":"desktop";
     document.documentElement.dataset.os=mode;
     const G="https://calendar.google.com/calendar/r?cid=webcal%3A%2F%2Finvincible1811.github.io%2Ftrash-roster%2Fcal%2F";
-    const how={ios:"<b>iPhone detected.</b> Tap the button, pick your name, then tap <b>Add All</b>.",
-      samsung:"<b>Samsung detected.</b> Tap the button, pick your name, then open the downloaded file.",
-      google:"<b>Android detected.</b> Tap the button, pick your name and add it to Google Calendar. Then, once: Google Calendar \u2192 Settings \u2192 <i>Trash roster (your name)</i> \u2192 add a notification.",
+    const how={ios:"<b>iPhone detected.</b> Tap the button, choose your name, then tap <b>Add All</b>.",
+      samsung:"<b>Samsung detected.</b> Tap the button, choose your name, then open the downloaded file.",
+      google:"<b>Android detected.</b> Tap the button, choose your name and add it to Google Calendar. Then, once: Google Calendar \u2192 Settings \u2192 <i>Trash roster (your name)</i> \u2192 add a notification.",
       desktop:"Open this page on your phone. It works on iPhone and Android."};
     const hint={ios:"Your weeks will be added to your iPhone calendar.",samsung:"Your weeks will be added to your Samsung calendar.",
       google:"Your weeks will be added to Google Calendar.",desktop:"Your weeks will download as a calendar file."};
@@ -253,9 +261,14 @@ footer a{color:var(--ink)}
     const dlg=document.getElementById("pickdlg");
     document.getElementById("add").addEventListener("click",()=>{
       if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");});
-    dlg.querySelectorAll("button[data-n]").forEach(b=>b.addEventListener("click",e=>{
-      e.preventDefault();const n=b.dataset.n;dlg.close&&dlg.close();
-      location.href=mode==="google"?G+n+".ics":"cal/"+n+".ics";}));
+    const who=document.getElementById("who");
+    try{const s=localStorage.getItem("roster-me");if(s)who.value=s;}catch(e){}
+    document.getElementById("go").addEventListener("click",()=>{
+      const n=who.value;
+      if(!n){who.classList.add("nudge");who.focus();setTimeout(()=>who.classList.remove("nudge"),600);return;}
+      try{localStorage.setItem("roster-me",n);}catch(e){}
+      dlg.close&&dlg.close();
+      location.href=mode==="google"?G+n+".ics":"cal/"+n+".ics";});
     })();
   </script>
 
